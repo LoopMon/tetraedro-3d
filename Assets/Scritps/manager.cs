@@ -24,27 +24,40 @@ public class manager : MonoBehaviour {
             }
         }
 
-        //pegar tetra da posicao 3 e transladar
-        vetGameObj[3].transform.position = new Vector3(0.5f, 0.86603f, 0.28868f);
-        //vetGameObj[3].transform.Rotate(110f,0f,0); // 90f
-        //vetGameObj[3].transform.RotateAround(transform.position, Vector3.forward, 5f);
+        // BASE
+        vetGameObj[3].transform.position = new Vector3(0.5f, 0, Mathf.Sqrt(0.75f));
+        vetGameObj[4].transform.position = new Vector3(1.5f, 0, Mathf.Sqrt(0.75f));
+        vetGameObj[5].transform.position = new Vector3(1f, 0, 2*Mathf.Sqrt(0.75f));
+
+        // MEIO
+        vetGameObj[6].transform.position = new Vector3(0.5f, Mathf.Sqrt(0.75f), 0.29f);
+        vetGameObj[7].transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), 0.29f);
+        vetGameObj[8].transform.position = new Vector3(1f, Mathf.Sqrt(0.75f), 1.15f);
+
+        // TOPO
+        vetGameObj[9].transform.position = new Vector3(1f, 2*Mathf.Sqrt(0.75f), 2*0.29f);
+
+        // BASE MEIOS
+        vetGameObj[10].transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), 0.29f);
+        vetGameObj[10].transform.Rotate(37f, 0f, 180f);
+        vetGameObj[11].transform.position = new Vector3(2.5f, Mathf.Sqrt(0.75f), 0.29f);
+        vetGameObj[11].transform.Rotate(37f, 0f, 180f);
+
+
+
+
+
 
         // importante para manipular os seus filhos
-        pai = new GameObject(); 
+        //pai = new GameObject(); 
         //pai.transform.position = new Vector3(0,1,0); //pivo
-        pai.transform.position = new Vector3(0, 1, 0); //pivo
-        vetGameObj[3].transform.parent = pai.transform;
+        //pai.transform.position = new Vector3(0, 1, 0); //pivo
+        //vetGameObj[3].transform.parent = pai.transform;
         //vetGameObj[3].transform.bounds
     }
 
 	// Update is called once per frame
 	void Update () {
-		//vetGameObj[3].transform.RotateAround(transform.position, Vector3.forward, 5f);
-        //cria um gameObject: Pai. Tem eixo de rotacao
-        //por o objeto como filho deste gameObject
-        //rotaciona o gameObjet(pai): consequencia o filho rotaciona
-        //Instantiate(Object original, Vector3 position, Quaternion rotation, Transform parent);
-        //pai.transform.Rotate(Vector3.right * 5);
-        vetGameObj[4].transform.Rotate((Vector3.right + Vector3.up) * 5);
+
 	}
 }
