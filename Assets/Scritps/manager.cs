@@ -42,9 +42,9 @@ public class manager : MonoBehaviour
         vetGameObj[8].transform.position = new Vector3(2f, 0, 2 * Mathf.Sqrt(0.75f));
         vetGameObj[8].transform.Rotate(0, 180f, 0);
         // BASE MEIOS
-        vetGameObj[9].transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), 0.29f);
+        vetGameObj[9].transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[9].transform.Rotate(37f, 0f, 180f);
-        vetGameObj[10].transform.position = new Vector3(2.5f, Mathf.Sqrt(0.75f), 0.29f);
+        vetGameObj[10].transform.position = new Vector3(2.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[10].transform.Rotate(37f, 0f, 180f);
 
         piramideBase = new GameObject("piramideBase");
@@ -63,41 +63,38 @@ public class manager : MonoBehaviour
             vetGameObj[i].transform.parent = piramideBase.transform;
         }
 
-        piramideBase.transform.position = new Vector3(1.5f, 0, 1f);
         piramideBase.transform.Rotate(0, 120f, 0);
 
-        vetGameObj[11].transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), 0.29f);
+        vetGameObj[11].transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[11].transform.Rotate(37f, 0f, 180f);
         vetGameObj[11].transform.parent = piramideBase.transform;
         PintarTetra(vetGameObj[11], Color.yellow);
-        vetGameObj[12].transform.position = new Vector3(2.5f, Mathf.Sqrt(0.75f), 0.29f);
+        vetGameObj[12].transform.position = new Vector3(2.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[12].transform.Rotate(37f, 0f, 180f);
         vetGameObj[12].transform.parent = piramideBase.transform;
         PintarTetra(vetGameObj[12], Color.yellow);
 
-        piramideBase.transform.position = new Vector3(1.63f, 0, 0.8f);
         piramideBase.transform.Rotate(0, 120f, 0);
 
-        vetGameObj[13].transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), 0.29f);
+        vetGameObj[13].transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[13].transform.Rotate(37f, 0f, 180f);
         vetGameObj[13].transform.parent = piramideBase.transform;
         vetGameObj[13].GetComponent<createTetra>().Rebuild();
         PintarTetra(vetGameObj[13], Color.red);
-        vetGameObj[14].transform.position = new Vector3(2.5f, Mathf.Sqrt(0.75f), 0.29f);
+        vetGameObj[14].transform.position = new Vector3(2.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[14].transform.Rotate(37f, 0f, 180f);
         vetGameObj[14].transform.parent = piramideBase.transform;
         PintarTetra(vetGameObj[14], Color.red);
 
-        piramideBase.transform.position = new Vector3(1.37f, 0, 0.8f);
         piramideBase.transform.rotation = Quaternion.Euler(0, 0, 0);
 
         // MEIO
-        vetGameObj[15].transform.position = new Vector3(0.5f, Mathf.Sqrt(0.75f), 0.29f);
-        vetGameObj[16].transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), 0.29f);
+        vetGameObj[15].transform.position = new Vector3(0.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
+        vetGameObj[16].transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[17].transform.position = new Vector3(1f, Mathf.Sqrt(0.75f), 1.15f);
         vetGameObj[18].transform.position = new Vector3(2f, Mathf.Sqrt(0.75f), 1.15f);
         vetGameObj[18].transform.Rotate(0, 180f, 0);
-        vetGameObj[19].transform.position = new Vector3(2f, 2 * Mathf.Sqrt(0.75f), 2 * 0.29f);
+        vetGameObj[19].transform.position = new Vector3(2f, 2 * Mathf.Sqrt(0.75f), 2 * Mathf.Sqrt(0.75f) / 3);
         vetGameObj[19].transform.Rotate(37f, 0f, 180f);
 
         piramideMeio = new GameObject("PiramideMeio");
@@ -112,25 +109,22 @@ public class manager : MonoBehaviour
             vetGameObj[i].transform.parent = piramideMeio.transform;
         }
 
-        piramideMeio.transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), 1.03f);
         piramideMeio.transform.Rotate(0, 120f, 0);
 
-        vetGameObj[20].transform.position = new Vector3(2f, 2 * Mathf.Sqrt(0.75f), 2 * 0.29f);
+        vetGameObj[20].transform.position = new Vector3(2f, 2 * Mathf.Sqrt(0.75f), 2 * (Mathf.Sqrt(0.75f) / 3));
         vetGameObj[20].transform.Rotate(37f, 0f, 180f);
         vetGameObj[20].transform.parent = piramideMeio.transform;
 
-        piramideMeio.transform.position = new Vector3(1.61f, Mathf.Sqrt(0.75f), 0.8f);
         piramideMeio.transform.Rotate(0, 120f, 0);
 
-        vetGameObj[21].transform.position = new Vector3(2f, 2 * Mathf.Sqrt(0.75f), 2 * 0.29f);
+        vetGameObj[21].transform.position = new Vector3(2f, 2 * Mathf.Sqrt(0.75f), 2 * (Mathf.Sqrt(0.75f) / 3));
         vetGameObj[21].transform.Rotate(37f, 0f, 180f);
         vetGameObj[21].transform.parent = piramideMeio.transform;
 
-        piramideMeio.transform.position = new Vector3(1.36f, Mathf.Sqrt(0.75f), 0.8f);
         piramideMeio.transform.rotation = Quaternion.Euler(0, 0, 0);
 
         // TOPO
-        vetGameObj[22].transform.position = new Vector3(0.98f, 2 * Mathf.Sqrt(0.75f), 2 * 0.29f);
+        vetGameObj[22].transform.position = new Vector3(1f, 2 * Mathf.Sqrt(0.75f), 2 * (Mathf.Sqrt(0.75f) / 3));
     }
 
     // Update is called once per frame
@@ -186,16 +180,23 @@ public class manager : MonoBehaviour
 
     Vector3 CalcularCentroideTetra(GameObject tetra)
     {
-        Mesh mesh = tetra.GetComponent<MeshFilter>().mesh;
-        Vector3[] v = mesh.vertices;
-
-        if (v.Length < 4)
+        createTetra scriptTetra = tetra.GetComponent<createTetra>();
+        if (scriptTetra == null)
         {
-            Debug.LogWarning("Tetraedro não possui 4 vértices únicos.");
+            Debug.LogWarning("Componente 'createTetra' não encontrado!");
             return tetra.transform.position;
         }
 
-        Vector3 centroideLocal = (v[0] + v[1] + v[2] + v[3]) / 4f;
+        // Agora usamos getVectors para pegar os vértices
+        Vector3[] vertices = scriptTetra.getVectors();
+        if (vertices.Length < 4)
+        {
+            Debug.LogWarning("Tetraedro não possui 4 vértices.");
+            return tetra.transform.position;
+        }
+
+        // Calcula o centroide a partir dos vértices
+        Vector3 centroideLocal = (vertices[0] + vertices[1] + vertices[2] + vertices[3]) / 4f;
         return tetra.transform.TransformPoint(centroideLocal);
     }
 
