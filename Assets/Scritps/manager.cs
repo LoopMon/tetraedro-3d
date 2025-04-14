@@ -125,6 +125,12 @@ public class manager : MonoBehaviour
 
         // TOPO
         vetGameObj[22].transform.position = new Vector3(1f, 2 * Mathf.Sqrt(0.75f), 2 * (Mathf.Sqrt(0.75f) / 3));
+
+        piramideTopo = new GameObject("PiramideTopo");
+        Vector3 aux = CalcularCentroideTetra(vetGameObj[22]);
+
+        piramideTopo.transform.position = new Vector3(aux[0], aux[1], aux[2]);
+        vetGameObj[22].transform.parent = piramideTopo.transform;
     }
 
     // Update is called once per frame
@@ -132,8 +138,9 @@ public class manager : MonoBehaviour
     {
         if (piramideBase != null)
         {
-            // piramideBase.transform.Rotate(Vector3.up * Time.deltaTime * 50f);
-            // piramideBase.transform.RotateAround(m_Center, Vector3.up, 15 * Time.deltaTime);
+            piramideBase.transform.Rotate(Vector3.up * Time.deltaTime * 50f);
+            piramideMeio.transform.Rotate(Vector3.up * Time.deltaTime * -50f);
+            piramideTopo.transform.Rotate(Vector3.up * Time.deltaTime * 25f);
         }
     }
 
