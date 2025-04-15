@@ -52,6 +52,13 @@ public class manager : MonoBehaviour
                 RotateAroundFaceAxis(piramideMeio, piramideTopo, -50f);
                 RotateAroundFaceAxis(piramideTopo, piramideBase, 25f);
             }
+
+            if (alpha4)
+            {
+                RotateAroundFaceAxis(piramideBase, piramideTopo, 50f);
+                RotateAroundFaceAxis(piramideMeio, piramideTopo, -50f);
+                RotateAroundFaceAxis(piramideTopo, piramideBase, 25f);
+            }
         }
 
         if (Input.GetKey(KeyCode.Alpha1))
@@ -220,6 +227,53 @@ public class manager : MonoBehaviour
             {
                 vetGameObj[i].transform.parent = null;
             }
+            // Calcular centro da Base
+            aux0 = CalcularCentroideTetra(vetGameObj[0]);
+            aux1 = CalcularCentroideTetra(vetGameObj[22]);
+            aux2 = CalcularCentroideTetra(vetGameObj[2]);
+            centroide = (aux0 + aux1 + aux2) / 3f;
+            piramideBase.transform.position = centroide;
+            // BASE
+            vetGameObj[0].transform.parent = piramideBase.transform;
+            vetGameObj[1].transform.parent = piramideBase.transform;
+            vetGameObj[2].transform.parent = piramideBase.transform;
+            vetGameObj[6].transform.parent = piramideBase.transform;
+            vetGameObj[7].transform.parent = piramideBase.transform;
+            vetGameObj[9].transform.parent = piramideBase.transform;
+            vetGameObj[10].transform.parent = piramideBase.transform;
+            vetGameObj[11].transform.parent = piramideBase.transform;
+            vetGameObj[14].transform.parent = piramideBase.transform;
+            vetGameObj[15].transform.parent = piramideBase.transform;
+            vetGameObj[16].transform.parent = piramideBase.transform;
+            vetGameObj[18].transform.parent = piramideBase.transform;
+            vetGameObj[19].transform.parent = piramideBase.transform;
+            vetGameObj[20].transform.parent = piramideBase.transform;
+            vetGameObj[21].transform.parent = piramideBase.transform;
+            vetGameObj[22].transform.parent = piramideBase.transform;
+            // Calcular centro do Meio
+            aux0 = CalcularCentroideTetra(vetGameObj[3]);
+            aux1 = CalcularCentroideTetra(vetGameObj[17]);
+            aux2 = CalcularCentroideTetra(vetGameObj[4]);
+            centroide = (aux0 + aux1 + aux2) / 3f;
+            piramideMeio.transform.position = centroide;
+            // Meio
+            vetGameObj[3].transform.parent = piramideMeio.transform;
+            vetGameObj[4].transform.parent = piramideMeio.transform;
+            vetGameObj[8].transform.parent = piramideMeio.transform;
+            vetGameObj[12].transform.parent = piramideMeio.transform;
+            vetGameObj[13].transform.parent = piramideMeio.transform;
+            vetGameObj[17].transform.parent = piramideMeio.transform;
+
+            // Calcular centro do Topo
+            aux0 = CalcularCentroideTetra(vetGameObj[5]);
+            piramideTopo.transform.position = new Vector3(aux0[0], aux0[1], aux0[2]);
+            // TOPO
+            vetGameObj[5].transform.parent = piramideTopo.transform;
+
+            alpha1 = false;
+            alpha2 = false;
+            alpha3 = false;
+            alpha4 = true;
         }
 
         if (Input.GetKey(KeyCode.R)) canRotate = true;
@@ -256,7 +310,7 @@ public class manager : MonoBehaviour
 
     void CriarPiramix()
     {
-        for (int i = 0; i < 24; i++)
+        for (int i = 0; i < 23; i++)
         {
             if (i == 0)
             {
