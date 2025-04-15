@@ -46,6 +46,12 @@ public class manager : MonoBehaviour
                 RotateAroundFaceAxis(piramideTopo, piramideBase, 25f);
             }
 
+            if (alpha3)
+            {
+                RotateAroundFaceAxis(piramideBase, piramideTopo, 50f);
+                RotateAroundFaceAxis(piramideMeio, piramideTopo, -50f);
+                RotateAroundFaceAxis(piramideTopo, piramideBase, 25f);
+            }
         }
 
         if (Input.GetKey(KeyCode.Alpha1))
@@ -156,6 +162,53 @@ public class manager : MonoBehaviour
             {
                 vetGameObj[i].transform.parent = null;
             }
+            // Calcular centro da Base
+            aux0 = CalcularCentroideTetra(vetGameObj[2]);
+            aux1 = CalcularCentroideTetra(vetGameObj[22]);
+            aux2 = CalcularCentroideTetra(vetGameObj[5]);
+            centroide = (aux0 + aux1 + aux2) / 3f;
+            piramideBase.transform.position = centroide;
+            // BASE
+            vetGameObj[2].transform.parent = piramideBase.transform;
+            vetGameObj[4].transform.parent = piramideBase.transform;
+            vetGameObj[5].transform.parent = piramideBase.transform;
+            vetGameObj[7].transform.parent = piramideBase.transform;
+            vetGameObj[8].transform.parent = piramideBase.transform;
+            vetGameObj[10].transform.parent = piramideBase.transform;
+            vetGameObj[11].transform.parent = piramideBase.transform;
+            vetGameObj[12].transform.parent = piramideBase.transform;
+            vetGameObj[13].transform.parent = piramideBase.transform;
+            vetGameObj[16].transform.parent = piramideBase.transform;
+            vetGameObj[17].transform.parent = piramideBase.transform;
+            vetGameObj[18].transform.parent = piramideBase.transform;
+            vetGameObj[19].transform.parent = piramideBase.transform;
+            vetGameObj[20].transform.parent = piramideBase.transform;
+            vetGameObj[21].transform.parent = piramideBase.transform;
+            vetGameObj[22].transform.parent = piramideBase.transform;
+            // Calcular centro do Meio
+            aux0 = CalcularCentroideTetra(vetGameObj[1]);
+            aux1 = CalcularCentroideTetra(vetGameObj[15]);
+            aux2 = CalcularCentroideTetra(vetGameObj[3]);
+            centroide = (aux0 + aux1 + aux2) / 3f;
+            piramideMeio.transform.position = centroide;
+            // Meio
+            vetGameObj[1].transform.parent = piramideMeio.transform;
+            vetGameObj[3].transform.parent = piramideMeio.transform;
+            vetGameObj[6].transform.parent = piramideMeio.transform;
+            vetGameObj[9].transform.parent = piramideMeio.transform;
+            vetGameObj[14].transform.parent = piramideMeio.transform;
+            vetGameObj[15].transform.parent = piramideMeio.transform;
+
+            // Calcular centro do Topo
+            aux0 = CalcularCentroideTetra(vetGameObj[0]);
+            piramideTopo.transform.position = new Vector3(aux0[0], aux0[1], aux0[2]);
+            // TOPO
+            vetGameObj[0].transform.parent = piramideTopo.transform;
+
+            alpha1 = false;
+            alpha2 = false;
+            alpha3 = true;
+            alpha4 = false;
         }
 
         if (Input.GetKey(KeyCode.Alpha4))
@@ -177,47 +230,6 @@ public class manager : MonoBehaviour
     {
         Vector3 axis = (piramideTopo.transform.position - piramideBase.transform.position).normalized;
         piramideBase.transform.RotateAround(piramideBase.transform.position, axis, rotationSpeed * Time.deltaTime);
-    }
-
-    void PintarTetra(GameObject obj, Color cor, int faceIndex = -1)
-    {
-        MeshFilter mf = obj.GetComponent<MeshFilter>();
-        if (mf == null) return;
-
-        Mesh mesh = mf.mesh;
-
-        // Garante que a malha tenha o array de cores
-        Color[] cores = new Color[mesh.vertexCount];
-
-        if (faceIndex < 0)
-        {
-            // Pinta o tetraedro inteiro
-            for (int i = 0; i < cores.Length; i++)
-            {
-                cores[i] = cor;
-            }
-        }
-        else
-        {
-            // Cada face tem 3 vértices
-            int startIndex = faceIndex * 3;
-
-            if (startIndex + 2 >= mesh.vertexCount)
-            {
-                Debug.LogWarning("Índice de face fora do intervalo!");
-                return;
-            }
-
-            // Copia as cores antigas (se quiser manter as outras intactas)
-            if (mesh.colors != null && mesh.colors.Length == mesh.vertexCount)
-                mesh.colors.CopyTo(cores, 0);
-
-            cores[startIndex] = cor;
-            cores[startIndex + 1] = cor;
-            cores[startIndex + 2] = cor;
-        }
-
-        mesh.colors = cores;
     }
 
     Vector3 CalcularCentroideTetra(GameObject tetra)
@@ -296,23 +308,18 @@ public class manager : MonoBehaviour
         vetGameObj[11].transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[11].transform.Rotate(37f, 0f, 180f);
         vetGameObj[11].transform.parent = piramideBase.transform;
-        PintarTetra(vetGameObj[11], Color.yellow);
         vetGameObj[12].transform.position = new Vector3(2.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[12].transform.Rotate(37f, 0f, 180f);
         vetGameObj[12].transform.parent = piramideBase.transform;
-        PintarTetra(vetGameObj[12], Color.yellow);
 
         piramideBase.transform.Rotate(0, 120f, 0);
 
         vetGameObj[13].transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[13].transform.Rotate(37f, 0f, 180f);
         vetGameObj[13].transform.parent = piramideBase.transform;
-        vetGameObj[13].GetComponent<createTetra>().Rebuild();
-        PintarTetra(vetGameObj[13], Color.red);
         vetGameObj[14].transform.position = new Vector3(2.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[14].transform.Rotate(37f, 0f, 180f);
         vetGameObj[14].transform.parent = piramideBase.transform;
-        PintarTetra(vetGameObj[14], Color.red);
 
         piramideBase.transform.rotation = Quaternion.Euler(0, 0, 0);
 
