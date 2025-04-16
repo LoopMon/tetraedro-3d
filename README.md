@@ -19,3 +19,12 @@ Teclas necessárias:
 - `z`: girar a base (de acordo com o eixo escolhido);
 - `x`: girar o meio (de acordo com o eixo escolhido);
 - `c`: girar o topo (de acordo com o eixo escolhido);
+
+## Imagens do projeto
+
+A imagem abaixo é um exemplo do piramix rotacionando com a rotação automática.
+
+![tetra rotacionando](./ReadMeImages/tetra_1.png)
+
+A imagem abaixo mostra o piramix na sua forma inicial.
+![tetra parado](./ReadMeImages/tetra-face-red-yellow.png)
