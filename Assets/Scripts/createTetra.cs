@@ -96,9 +96,9 @@ public class createTetra : MonoBehaviour
         color[7] = Color.yellow;
         color[8] = Color.yellow;
 
-        color[9] = Color.magenta;
-        color[10] = Color.magenta;
-        color[11] = Color.magenta;
+        color[9] = Color.green;
+        color[10] = Color.green;
+        color[11] = Color.green;
 
         mesh.colors = color;
 
@@ -106,13 +106,11 @@ public class createTetra : MonoBehaviour
         mesh.RecalculateBounds();
     }
 
-    // Use this for initialization
     void Start()
     {
         Rebuild();
     }
 
-    // Update is called once per frame
     void Update()
     {
 
