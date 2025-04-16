@@ -27,4 +27,5 @@ A imagem abaixo é um exemplo do piramix rotacionando com a rotação automátic
 ![tetra rotacionando](./ReadMeImages/tetra_1.png)
 
 A imagem abaixo mostra o piramix na sua forma inicial.
+
 ![tetra parado](./ReadMeImages/tetra-face-red-yellow.png)
