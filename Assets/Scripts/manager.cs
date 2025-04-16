@@ -11,6 +11,7 @@ public class manager : MonoBehaviour
     private GameObject piramideTopo;
 
     private bool canRotate = false;
+    private bool isRotating = false;
     private bool alpha1 = true;
     private bool alpha2 = false;
     private bool alpha3 = false;
@@ -22,7 +23,9 @@ public class manager : MonoBehaviour
     private Vector3 centroide;
 
     private float highSpeedRotation = 50f;
-    private float lowSpeedddRotation = 25f;
+    private float lowSpeedRotation = 25f;
+    private float faceRotation = 120f;
+    private float timeRotation = 0.5f;
 
     void Start()
     {
@@ -37,31 +40,106 @@ public class manager : MonoBehaviour
             {
                 piramideBase.transform.Rotate(Vector3.up * Time.deltaTime * highSpeedRotation);
                 piramideMeio.transform.Rotate(Vector3.up * Time.deltaTime * -highSpeedRotation);
-                piramideTopo.transform.Rotate(Vector3.up * Time.deltaTime * lowSpeedddRotation);
+                piramideTopo.transform.Rotate(Vector3.up * Time.deltaTime * lowSpeedRotation);
             }
 
             if (alpha2)
             {
                 RotateAroundFaceAxis(piramideBase, piramideTopo, highSpeedRotation);
                 RotateAroundFaceAxis(piramideMeio, piramideTopo, -highSpeedRotation);
-                RotateAroundFaceAxis(piramideTopo, piramideBase, lowSpeedddRotation);
+                RotateAroundFaceAxis(piramideTopo, piramideBase, lowSpeedRotation);
             }
 
             if (alpha3)
             {
                 RotateAroundFaceAxis(piramideBase, piramideTopo, highSpeedRotation);
                 RotateAroundFaceAxis(piramideMeio, piramideTopo, -highSpeedRotation);
-                RotateAroundFaceAxis(piramideTopo, piramideBase, lowSpeedddRotation);
+                RotateAroundFaceAxis(piramideTopo, piramideBase, lowSpeedRotation);
             }
 
             if (alpha4)
             {
                 RotateAroundFaceAxis(piramideBase, piramideTopo, highSpeedRotation);
                 RotateAroundFaceAxis(piramideMeio, piramideTopo, -highSpeedRotation);
-                RotateAroundFaceAxis(piramideTopo, piramideBase, lowSpeedddRotation);
+                RotateAroundFaceAxis(piramideTopo, piramideBase, lowSpeedRotation);
             }
         }
 
+        if (!canRotate && !isRotating)
+        {
+            if (Input.GetKeyUp(KeyCode.Z))
+            {
+                StartCoroutine(FullRotateAroundFaceAxis(piramideBase, piramideTopo, faceRotation, timeRotation));
+            }
+            if (Input.GetKeyUp(KeyCode.X))
+            {
+                StartCoroutine(FullRotateAroundFaceAxis(piramideMeio, piramideTopo, faceRotation, timeRotation));
+            }
+            if (Input.GetKeyUp(KeyCode.C))
+            {
+                StartCoroutine(FullRotateAroundFaceAxis(piramideTopo, piramideBase, faceRotation, timeRotation));
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.R)) canRotate = !canRotate;
+
+        TrocarEixo();
+    }
+
+    void RotateAroundFaceAxis(GameObject piramideBase, GameObject piramideTopo, float rotationSpeed)
+    {
+        Vector3 axis = (piramideTopo.transform.position - piramideBase.transform.position).normalized;
+        piramideBase.transform.RotateAround(piramideBase.transform.position, axis, rotationSpeed * Time.deltaTime);
+    }
+
+    IEnumerator FullRotateAroundFaceAxis(GameObject piramideBase, GameObject piramideTopo, float totalAngle, float duration)
+    {
+        isRotating = true;
+
+        Vector3 axis = (piramideTopo.transform.position - piramideBase.transform.position).normalized;
+        float rotatedAngle = 0f;
+        float rotationPerFrame;
+
+        while (rotatedAngle < totalAngle)
+        {
+            // Quanto vamos rotacionar neste frame
+            rotationPerFrame = (totalAngle / duration) * Time.deltaTime;
+
+            // Evitar ultrapassar o ângulo total
+            float remainingAngle = totalAngle - rotatedAngle;
+            float step = Mathf.Min(rotationPerFrame, remainingAngle);
+
+            piramideBase.transform.RotateAround(piramideBase.transform.position, axis, step);
+            rotatedAngle += step;
+
+            yield return null;
+        }
+
+        isRotating = false;
+    }
+
+    Vector3 CalcularCentroideTetra(GameObject tetra)
+    {
+        createTetra scriptTetra = tetra.GetComponent<createTetra>();
+        if (scriptTetra == null)
+        {
+            Debug.LogWarning("Componente 'createTetra' não encontrado!");
+            return tetra.transform.position;
+        }
+
+        Vector3[] vertices = scriptTetra.getVectors();
+        if (vertices.Length < 4)
+        {
+            Debug.LogWarning("Tetraedro não possui 4 vértices.");
+            return tetra.transform.position;
+        }
+
+        Vector3 centroideLocal = (vertices[0] + vertices[1] + vertices[2] + vertices[3]) / 4f;
+        return tetra.transform.TransformPoint(centroideLocal);
+    }
+
+    void TrocarEixo()
+    {
         if (Input.GetKey(KeyCode.Alpha1))
         {
             piramideBase.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -277,33 +355,6 @@ public class manager : MonoBehaviour
             alpha4 = true;
         }
 
-        if (Input.GetKeyUp(KeyCode.R)) canRotate = !canRotate;
-    }
-
-    void RotateAroundFaceAxis(GameObject piramideBase, GameObject piramideTopo, float rotationSpeed)
-    {
-        Vector3 axis = (piramideTopo.transform.position - piramideBase.transform.position).normalized;
-        piramideBase.transform.RotateAround(piramideBase.transform.position, axis, rotationSpeed * Time.deltaTime);
-    }
-
-    Vector3 CalcularCentroideTetra(GameObject tetra)
-    {
-        createTetra scriptTetra = tetra.GetComponent<createTetra>();
-        if (scriptTetra == null)
-        {
-            Debug.LogWarning("Componente 'createTetra' não encontrado!");
-            return tetra.transform.position;
-        }
-
-        Vector3[] vertices = scriptTetra.getVectors();
-        if (vertices.Length < 4)
-        {
-            Debug.LogWarning("Tetraedro não possui 4 vértices.");
-            return tetra.transform.position;
-        }
-
-        Vector3 centroideLocal = (vertices[0] + vertices[1] + vertices[2] + vertices[3]) / 4f;
-        return tetra.transform.TransformPoint(centroideLocal);
     }
 
     void CriarPiramix()
@@ -355,22 +406,30 @@ public class manager : MonoBehaviour
             vetGameObj[i].transform.parent = piramideBase.transform;
         }
 
-        piramideBase.transform.Rotate(0, 120f, 0);
+        piramideBase.transform.Rotate(0, faceRotation, 0);
 
         vetGameObj[11].transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[11].transform.Rotate(37f, 0f, 180f);
+        createTetra tetra = vetGameObj[11].GetComponent<createTetra>();
+        RotateTetraAroundBase(tetra, faceRotation);
         vetGameObj[11].transform.parent = piramideBase.transform;
         vetGameObj[12].transform.position = new Vector3(2.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[12].transform.Rotate(37f, 0f, 180f);
+        tetra = vetGameObj[12].GetComponent<createTetra>();
+        RotateTetraAroundBase(tetra, faceRotation);
         vetGameObj[12].transform.parent = piramideBase.transform;
 
-        piramideBase.transform.Rotate(0, 120f, 0);
+        piramideBase.transform.Rotate(0, faceRotation, 0);
 
         vetGameObj[13].transform.position = new Vector3(1.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[13].transform.Rotate(37f, 0f, 180f);
+        tetra = vetGameObj[13].GetComponent<createTetra>();
+        RotateTetraAroundBase(tetra, 2 * faceRotation);
         vetGameObj[13].transform.parent = piramideBase.transform;
         vetGameObj[14].transform.position = new Vector3(2.5f, Mathf.Sqrt(0.75f), Mathf.Sqrt(0.75f) / 3);
         vetGameObj[14].transform.Rotate(37f, 0f, 180f);
+        tetra = vetGameObj[14].GetComponent<createTetra>();
+        RotateTetraAroundBase(tetra, 2 * faceRotation);
         vetGameObj[14].transform.parent = piramideBase.transform;
 
         piramideBase.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -397,16 +456,20 @@ public class manager : MonoBehaviour
             vetGameObj[i].transform.parent = piramideMeio.transform;
         }
 
-        piramideMeio.transform.Rotate(0, 120f, 0);
+        piramideMeio.transform.Rotate(0, faceRotation, 0);
 
         vetGameObj[20].transform.position = new Vector3(2f, 2 * Mathf.Sqrt(0.75f), 2 * (Mathf.Sqrt(0.75f) / 3));
         vetGameObj[20].transform.Rotate(37f, 0f, 180f);
+        tetra = vetGameObj[20].GetComponent<createTetra>();
+        RotateTetraAroundBase(tetra, faceRotation);
         vetGameObj[20].transform.parent = piramideMeio.transform;
 
-        piramideMeio.transform.Rotate(0, 120f, 0);
+        piramideMeio.transform.Rotate(0, faceRotation, 0);
 
         vetGameObj[21].transform.position = new Vector3(2f, 2 * Mathf.Sqrt(0.75f), 2 * (Mathf.Sqrt(0.75f) / 3));
         vetGameObj[21].transform.Rotate(37f, 0f, 180f);
+        tetra = vetGameObj[21].GetComponent<createTetra>();
+        RotateTetraAroundBase(tetra, 2 * faceRotation);
         vetGameObj[21].transform.parent = piramideMeio.transform;
 
         piramideMeio.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -419,5 +482,29 @@ public class manager : MonoBehaviour
         piramideTopo.transform.position = new Vector3(aux0[0], aux0[1], aux0[2]);
 
         vetGameObj[22].transform.parent = piramideTopo.transform;
+    }
+
+    void RotateTetraAroundBase(createTetra tetra, float rotation)
+    {
+        if (tetra == null) return;
+
+        Vector3[] vertices = tetra.getVectors();
+        if (vertices.Length < 4) return;
+
+        // Assumindo que:
+        // p0, p1, p2 = base
+        // p3 = topo
+
+        Vector3 baseCenter = (vertices[0] + vertices[1] + vertices[2]) / 3f;
+        Vector3 topVertex = vertices[3];
+
+        // Como os vértices estão no local space, precisamos transformar para world space
+        Transform t = tetra.transform;
+        Vector3 worldBaseCenter = t.TransformPoint(baseCenter);
+        Vector3 worldTopVertex = t.TransformPoint(topVertex);
+
+        Vector3 axis = (worldTopVertex - worldBaseCenter).normalized;
+
+        t.RotateAround(worldBaseCenter, axis, rotation);
     }
 }
