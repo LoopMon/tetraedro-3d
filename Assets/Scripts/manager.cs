@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class manager : MonoBehaviour
 {
-    public GameObject tetrahedron; // prefab da camera
-    public GameObject[] vetGameObj = new GameObject[24];
+    public GameObject tetrahedron;
+    public GameObject[] vetGameObj = new GameObject[23];
     private GameObject piramideBase;
     private GameObject piramideMeio;
     private GameObject piramideTopo;
@@ -21,43 +21,44 @@ public class manager : MonoBehaviour
     private Vector3 aux2;
     private Vector3 centroide;
 
-    // Use this for initialization
+    private float highSpeedRotation = 50f;
+    private float lowSpeedddRotation = 25f;
+
     void Start()
     {
         CriarPiramix();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (piramideBase != null && canRotate)
         {
             if (alpha1)
             {
-                piramideBase.transform.Rotate(Vector3.up * Time.deltaTime * 50f);
-                piramideMeio.transform.Rotate(Vector3.up * Time.deltaTime * -50f);
-                piramideTopo.transform.Rotate(Vector3.up * Time.deltaTime * 25f);
+                piramideBase.transform.Rotate(Vector3.up * Time.deltaTime * highSpeedRotation);
+                piramideMeio.transform.Rotate(Vector3.up * Time.deltaTime * -highSpeedRotation);
+                piramideTopo.transform.Rotate(Vector3.up * Time.deltaTime * lowSpeedddRotation);
             }
 
             if (alpha2)
             {
-                RotateAroundFaceAxis(piramideBase, piramideTopo, 50f);
-                RotateAroundFaceAxis(piramideMeio, piramideTopo, -50f);
-                RotateAroundFaceAxis(piramideTopo, piramideBase, 25f);
+                RotateAroundFaceAxis(piramideBase, piramideTopo, highSpeedRotation);
+                RotateAroundFaceAxis(piramideMeio, piramideTopo, -highSpeedRotation);
+                RotateAroundFaceAxis(piramideTopo, piramideBase, lowSpeedddRotation);
             }
 
             if (alpha3)
             {
-                RotateAroundFaceAxis(piramideBase, piramideTopo, 50f);
-                RotateAroundFaceAxis(piramideMeio, piramideTopo, -50f);
-                RotateAroundFaceAxis(piramideTopo, piramideBase, 25f);
+                RotateAroundFaceAxis(piramideBase, piramideTopo, highSpeedRotation);
+                RotateAroundFaceAxis(piramideMeio, piramideTopo, -highSpeedRotation);
+                RotateAroundFaceAxis(piramideTopo, piramideBase, lowSpeedddRotation);
             }
 
             if (alpha4)
             {
-                RotateAroundFaceAxis(piramideBase, piramideTopo, 50f);
-                RotateAroundFaceAxis(piramideMeio, piramideTopo, -50f);
-                RotateAroundFaceAxis(piramideTopo, piramideBase, 25f);
+                RotateAroundFaceAxis(piramideBase, piramideTopo, highSpeedRotation);
+                RotateAroundFaceAxis(piramideMeio, piramideTopo, -highSpeedRotation);
+                RotateAroundFaceAxis(piramideTopo, piramideBase, lowSpeedddRotation);
             }
         }
 
@@ -66,7 +67,7 @@ public class manager : MonoBehaviour
             piramideBase.transform.rotation = Quaternion.Euler(0, 0, 0);
             piramideMeio.transform.rotation = Quaternion.Euler(0, 0, 0);
             piramideTopo.transform.rotation = Quaternion.Euler(0, 0, 0);
-            for (int i = 0; i <= 22; i++)
+            for (int i = 0, tam = vetGameObj.Length; i < tam; i++)
             {
                 vetGameObj[i].transform.parent = null;
             }
@@ -106,7 +107,7 @@ public class manager : MonoBehaviour
             piramideBase.transform.rotation = Quaternion.Euler(0, 0, 0);
             piramideMeio.transform.rotation = Quaternion.Euler(0, 0, 0);
             piramideTopo.transform.rotation = Quaternion.Euler(0, 0, 0);
-            for (int i = 0; i <= 22; i++)
+            for (int i = 0, tam = vetGameObj.Length; i < tam; i++)
             {
                 vetGameObj[i].transform.parent = null;
             }
@@ -165,7 +166,7 @@ public class manager : MonoBehaviour
             piramideBase.transform.rotation = Quaternion.Euler(0, 0, 0);
             piramideMeio.transform.rotation = Quaternion.Euler(0, 0, 0);
             piramideTopo.transform.rotation = Quaternion.Euler(0, 0, 0);
-            for (int i = 0; i <= 22; i++)
+            for (int i = 0, tam = vetGameObj.Length; i < tam; i++)
             {
                 vetGameObj[i].transform.parent = null;
             }
@@ -223,7 +224,7 @@ public class manager : MonoBehaviour
             piramideBase.transform.rotation = Quaternion.Euler(0, 0, 0);
             piramideMeio.transform.rotation = Quaternion.Euler(0, 0, 0);
             piramideTopo.transform.rotation = Quaternion.Euler(0, 0, 0);
-            for (int i = 0; i <= 22; i++)
+            for (int i = 0, tam = vetGameObj.Length; i < tam; i++)
             {
                 vetGameObj[i].transform.parent = null;
             }
@@ -276,8 +277,7 @@ public class manager : MonoBehaviour
             alpha4 = true;
         }
 
-        if (Input.GetKey(KeyCode.R)) canRotate = true;
-        if (Input.GetKey(KeyCode.T)) canRotate = false;
+        if (Input.GetKeyUp(KeyCode.R)) canRotate = !canRotate;
     }
 
     void RotateAroundFaceAxis(GameObject piramideBase, GameObject piramideTopo, float rotationSpeed)
@@ -295,7 +295,6 @@ public class manager : MonoBehaviour
             return tetra.transform.position;
         }
 
-        // Agora usamos getVectors para pegar os vértices
         Vector3[] vertices = scriptTetra.getVectors();
         if (vertices.Length < 4)
         {
@@ -303,14 +302,13 @@ public class manager : MonoBehaviour
             return tetra.transform.position;
         }
 
-        // Calcula o centroide a partir dos vértices
         Vector3 centroideLocal = (vertices[0] + vertices[1] + vertices[2] + vertices[3]) / 4f;
         return tetra.transform.TransformPoint(centroideLocal);
     }
 
     void CriarPiramix()
     {
-        for (int i = 0; i < 23; i++)
+        for (int i = 0, tam = vetGameObj.Length; i < tam; i++)
         {
             if (i == 0)
             {
